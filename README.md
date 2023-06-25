@@ -146,3 +146,15 @@ There's a `CSPOTTER_ERR` string which lead me to the Cyberon CSpotter SDK:
 The Cyberon CSpotter is a local voice trigger and command recognition solution that consumes very low resources and provides high accuracy performance. It runs on Renesas RA 32-bit microcontrollers (MCUs) with 120MHz of speed and enough memory to support multi-language commands as well as H/W crypto engine for strong security.
 ```
 
+`0x0101_0010` reads as all `0x00`, so it's not an RA2E2 chip
+
+`0x0100_80F0` reads as all `0x00`.
+
+`0x4000_0000` reads as all `0x00`.
+
+`0x5000_0000` has some stuff, but it's sparse. See `dump_5000_combined.bin`
+
+`0xE000_0000` reads as all `0x00`.
+
+Ram dump at `0x200_0000` can be found at `dump_ram.bin`. Note, `0x200033A8` and `0x200033AC` have been clobbered by my dumping code.
+
