@@ -53,7 +53,9 @@ I have no clue what `MOSO` is other than a typo.
 
 I've patched in a spinlock at 0x0400_BFC2 which successfully triggers when running a "lightshow". A watchdog resets the Furby after about 2 seconds.
 
-`Mic Sen1` is debug serial output
+`Mic Sen1` is debug serial output!!!!!!! I'm upset I missed this yesterday.
+
+I'm putting my code into a cave at ??? then triggering it from either:
 
 ```
                              ?print_lightshow                                XREF[1]:     0400c050(*)  
@@ -68,29 +70,33 @@ I've patched in a spinlock at 0x0400_BFC2 which successfully triggers when runni
         0400bfc4 24 e0           b          LAB_0400c010
 ```
 
-```
-                             **************************************************************
-                             *                          FUNCTION                          *
-                             **************************************************************
-                             undefined codecave()
-             undefined         r0:1           <RETURN>
-                             codecave
-        04024c00 f0 b5           push       {r4,r5,r6,r7,lr}
-        04024c02 14 4b           ldr        r3,[near_ptr_print_string_ptr]                   = 58CDh
-        04024c04 14 48           ldr        r0,[->newline_str]                               = 04024c60
-        04024c06 98 47           blx        r3
-        04024c08 00 24           movs       r4,#0x0
-        04024c0a 16 4d           ldr        r5,[dump_start]
-                             loop                                            XREF[1]:     04024c1a(j)  
-        04024c0c 60 5b           ldrh       r0,[r4,r5]
-        04024c0e 00 bf           nop
-        04024c10 0f 4b           ldr        r3,[ptr_print_hex]                               = 5905h
-        04024c12 30 b4           push       {r4,r5}
-        04024c14 98 47           blx        r3
-        04024c16 30 bc           pop        {r4,r5}
-        04024c18 02 34           adds       r4,#0x2
-        04024c1a f7 e7           b          loop
+or:
 
+```
+        04004b9e 04 23           movs       r3,#0x4
+        04004ba0 1b 02           lsls       r3,r3,#0x8
+        04004ba2 02 33           adds       r3,#0x2
+        04004ba4 1b 02           lsls       r3,r3,#0x8
+        04004ba6 4c 33           adds       r3,#0x4c
+        04004ba8 1b 02           lsls       r3,r3,#0x8
+        04004baa 5b 1c           adds       r3,r3,#0x1
+                             call_codecave
+        04004bac 98 47           blx        r3
+```
+
+
+
+```
+
+# 0x0402_4c00
+
+codecave:
+
+push {r4, r5, r6, r7, lr}
+ldr r3, [near_ptr_print_string_ptr]
+ldr r0, [newline_str]
+blx r3
+movs r4, #0
 
 
 ldr r7, [ram_save_loc]
@@ -157,4 +163,13 @@ The Cyberon CSpotter is a local voice trigger and command recognition solution t
 `0xE000_0000` reads as all `0x00`.
 
 Ram dump at `0x200_0000` can be found at `dump_ram.bin`. Note, `0x200033A8` and `0x200033AC` have been clobbered by my dumping code.
+
+
+# TODO
+
+I still don't know which processor this is. It's definitely little-endian ARM, has internal flash at `0x0`, has external flash at `0x0400_0000`, and has ram at `0x2000_0000`.
+
+I'd like to decap it to hopefully see chip markings, but I'm not sure if I'm ready to destroy this board. There's probably more I can learn from it.
+
+I'd also like to get audio captures to see if the Furbys are using ultrasound.
 
