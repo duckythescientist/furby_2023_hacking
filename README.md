@@ -124,7 +124,7 @@ nop
 
 ldrh       r0,[r4,r5]
 nop
-ldr        r3,[ptr_print_hex]                               = 5905h
+ldr        r3,[ptr_print_hex]
 push       {r4,r5, r6, r7}
 blx        r3
 pop        {r4,r5, r6, r7}
@@ -139,6 +139,30 @@ nop
 nop
 nop
 pop {r4,r5,r6,r7,pc}
+```
+
+```
+                             ptr_print_hex                                   XREF[1]:     04024c32(R)  
+        04024c50 05 59 00 00     int        5905h
+                             near_ptr_print_string_ptr                       XREF[1]:     04024c02(R)  
+        04024c54 cd 58 00 00     int        58CDh
+                             newline_ptr                                     XREF[1]:     04024c04(R)  
+        04024c58 60 4c 02 04     char * *   newline_str                                      = '\r'
+                             qspi_start_addr
+        04024c5c 00 00 00 04     uint16_t   DAT_04000000                                     = 01h
+                             newline_str                                     XREF[1]:     04024c58(*)  
+        04024c60 0d              char       '\r'
+        04024c61 0a              char       '\n'
+        04024c62 00              char       '\0'
+        04024c63 00              char       '\0'
+                             dump_start                                      XREF[1]:     04024c18(R)  
+        04024c64 00 00 00 e0     int        E0000000h
+                             chunk_size                                      XREF[1]:     04024c3c(R)  
+        04024c68 00 40 00 00     int        4000h
+                             ram_save_loc                                    XREF[1]:     04024c0a(R)  
+        04024c6c a8 33 00 20     int        200033A8h
+                             magic_number                                    XREF[1]:     04024c10(R)  
+        04024c70 be ba fe ca     int        CAFEBABEh
 ```
 
 `codecave_continue_motoridx.bin` when flashed will print out `0x4000` bytes of flash at a time when the motor moves.
